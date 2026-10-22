@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f6fbe" />
+    <title>Docklist — Dockerized To-Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="background-glow background-glow--one"></div>
+    <div class="background-glow background-glow--two"></div>
+    <main class="app">
+      <header class="app__header">
+        <div class="brand">
+          <div class="brand__mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><i></i><i></i
+            ><i></i>
+          </div>
+          <span>Docklist</span>
+        </div>
+        <span class="status"><i></i> Container running</span>
+      </header>
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">YOUR COMMAND CENTER</p>
+        <h1 id="page-title">
+          Make progress,<br /><em>one task at a time.</em>
+        </h1>
+        <p class="hero__description">
+          A lightweight task list, served fresh from your Docker container.
+        </p>
+      </section>
+      <section class="workspace" aria-label="Task workspace">
+        <form id="add-form" class="add-form" autocomplete="off">
+          <label class="sr-only" for="task-input">New task title</label>
+          <input
+            type="text"
+            id="task-input"
+            class="add-form__input"
+            placeholder="What needs to be done?"
+            maxlength="200"
+          />
+          <button type="submit" class="add-form__button">
+            <span aria-hidden="true">+</span> Add task
+          </button>
+        </form>
+        <p id="message" class="message" role="alert"></p>
+        <div class="task-toolbar">
+          <div class="filters" id="filters" aria-label="Filter tasks">
+            <button class="filters__btn is-active" data-filter="all">All</button
+            ><button class="filters__btn" data-filter="active">Active</button
+            ><button class="filters__btn" data-filter="completed">Done</button>
+          </div>
+          <span id="task-count" class="task-count">0 tasks</span>
+        </div>
+        <ul id="task-list" class="task-list" aria-live="polite"></ul>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-state__icon" aria-hidden="true">✓</div>
+          <p>Nothing on this list yet.</p>
+          <span>Add a task above to get moving.</span>
+        </div>
+      </section>
+      <section class="concepts" aria-labelledby="concepts-title">
+        <p class="eyebrow">CONTAINER CONCEPTS IN THIS PROJECT</p>
+        <h2 id="concepts-title">Units III &amp; IV</h2>
+        <div class="concepts__grid">
+          <article>
+            <h3>Persistent storage</h3>
+            <p>
+              SQLite stores tasks in <code>/data/tasks.db</code>; the named
+              Docker volume keeps them when a container is replaced.
+            </p>
+          </article>
+          <article>
+            <h3>Networking</h3>
+            <p>
+              Compose creates an isolated bridge network. Port mapping publishes
+              container port 5000 on host port 5000.
+            </p>
+          </article>
+          <article>
+            <h3>Security</h3>
+            <p>
+              The image runs as an unprivileged user. Runtime settings come from
+              the environment, and inputs use parameterized SQL.
+            </p>
+          </article>
+          <article>
+            <h3>Optimization</h3>
+            <p>
+              A multi-stage Dockerfile installs dependencies in a builder stage
+              and copies only the virtual environment and app into runtime.
+            </p>
+          </article>
+          <article>
+            <h3>Automation</h3>
+            <p>
+              The GitHub Actions workflow builds the image on pushes and pull
+              requests, catching packaging errors early.
+            </p>
+          </article>
+          <article>
+            <h3>Monitoring &amp; Kubernetes</h3>
+            <p>
+              <code>/health</code> checks the app and database. Kubernetes
+              deployment and service examples are in <code>k8s/</code>.
+            </p>
+          </article>
+        </div>
+      </section>
+      <footer class="app__footer">
+        <span><i></i> Flask + Docker</span
+        ><span>Tasks stored in a persistent volume</span>
+      </footer>
+    </main>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

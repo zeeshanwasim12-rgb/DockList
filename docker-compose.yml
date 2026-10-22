@@ -1,0 +1,27 @@
+services:
+  todo-app:
+    build: .
+    image: zeeshanwasim/todo-app:latest
+    container_name: todo-container
+    ports:
+      - "5000:5000"
+    environment:
+      TODO_DB_PATH: /data/tasks.db
+    volumes:
+      - todo-data:/data
+    networks:
+      - todo-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:5000/health', timeout=2)"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  todo-data:
+
+networks:
+  todo-network:
+    driver: bridge
